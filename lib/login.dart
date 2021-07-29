@@ -88,6 +88,7 @@ class _LoginState extends State<LoginPage> {
     void saveToken(String token) {
         SharedPreferences prefs = await SharedPreferences.getInstance();
         await prefs.setString("token", token);
+        print("Saved token!");
     }
     void register() {
         var username = usernameController.text;
@@ -102,8 +103,8 @@ class _LoginState extends State<LoginPage> {
         }
         print("Creating account!");
         // TODO: Change to POST
-        api.rawRequest("GET", "/live/register", headers: {"username": username, "password": password}).then((res) {
-            print(res);
+        api.rawRequest("GET", "/live/register", headers: {"username": username, "password": password}).then((token) {
+            saveToken(token);
         }).catchError((err) {
             setState(() {
                 error = err;
