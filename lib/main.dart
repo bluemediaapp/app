@@ -1,8 +1,9 @@
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:bloo/api.dart' as api;
-import 'package:bloo/login.dart';
+import "package:flutter/material.dart";
+import "package:flutter/services.dart";
+import "package:shared_preferences/shared_preferences.dart";
+import "package:flutter/foundation.dart" as foundation;
+import "package:bloo/api.dart" as api;
+import "package:bloo/login.dart";
 
 void main() {
   runApp(MyApp());
@@ -12,7 +13,7 @@ class MyApp extends StatelessWidget {
     @override
     Widget build(BuildContext context) {
         return MaterialApp(
-            title: 'Flutter Demo',
+            title: "Flutter Demo",
             debugShowCheckedModeBanner: false,
             theme: ThemeData(
                 primarySwatch: Colors.blue,
