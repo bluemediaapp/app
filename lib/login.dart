@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:bloo/api.dart' as api;
+import 'package:shared_preferences/shared_preferences.dart';
 
 
 class LoginPage extends StatefulWidget {
@@ -83,9 +84,19 @@ class _LoginState extends State<LoginPage> {
     }
 
     void login() {
-        
+        print("Logging in...");
+        var username = usernameController.text;
+        var password = passwordController.text;
+
+        api.rawRequest("GET", "/live/login", headers: {"username": username, "password": password}).then((token) {
+            saveToken(token);
+        }).catchError((err) {
+            setState(() {
+                error = err;
+            });
+        });
     }
-    void saveToken(String token) {
+    void saveToken(String token) async {
         SharedPreferences prefs = await SharedPreferences.getInstance();
         await prefs.setString("token", token);
         print("Saved token!");

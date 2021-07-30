@@ -25,5 +25,7 @@ Future<String> rawRequest(String method, String path, {Map<String, String> heade
     if (response.statusCode != 200) {
         throw response.body;
     }
-    return response.body;
+    var body = response.body;
+    print(body);
+    return body;
 }
