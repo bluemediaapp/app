@@ -4,6 +4,10 @@ import "package:shared_preferences/shared_preferences.dart";
 
 
 class LoginPage extends StatefulWidget {
+    VoidCallback loginCallback;
+
+    LoginPage(this.loginCallback);
+
     @override
     _LoginState createState() {
         return _LoginState();
@@ -90,6 +94,7 @@ class _LoginState extends State<LoginPage> {
 
         api.rawRequest("GET", "/live/login", headers: {"username": username, "password": password}).then((res) {
             saveToken(res.body);
+            widget.loginCallback();
         }).catchError((err) {
             setState(() {
                 error = err;
@@ -116,6 +121,7 @@ class _LoginState extends State<LoginPage> {
         // TODO: Change to POST
         api.rawRequest("GET", "/live/register", headers: {"username": username, "password": password}).then((res) {
             saveToken(res.body);
+            widget.loginCallback();
         }).catchError((err) {
             setState(() {
                 error = err;

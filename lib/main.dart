@@ -30,9 +30,9 @@ class SelectorPage extends StatefulWidget {
 }
 
 class _SelectorPageState extends State<SelectorPage> {
+    // Login
     bool checkedLogin = false;
     bool loggedIn = false;
-
 
     @override
     Widget build(BuildContext context) {
@@ -49,7 +49,7 @@ class _SelectorPageState extends State<SelectorPage> {
             widget = SafeArea(child: Text("Verifying login..."));
         } else if (!loggedIn) {
             // Token was not present or expired
-            widget = LoginPage();
+            widget = LoginPage(this.onLoggedIn);
         } else {
             // No widget was selected
             widget = SafeArea(child: Text("I can't figure what to display..."));
