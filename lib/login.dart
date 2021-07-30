@@ -88,8 +88,8 @@ class _LoginState extends State<LoginPage> {
         var username = usernameController.text;
         var password = passwordController.text;
 
-        api.rawRequest("GET", "/live/login", headers: {"username": username, "password": password}).then((token) {
-            saveToken(token);
+        api.rawRequest("GET", "/live/login", headers: {"username": username, "password": password}).then((res) {
+            saveToken(res.body);
         }).catchError((err) {
             setState(() {
                 error = err;
@@ -114,8 +114,8 @@ class _LoginState extends State<LoginPage> {
         }
         print("Creating account!");
         // TODO: Change to POST
-        api.rawRequest("GET", "/live/register", headers: {"username": username, "password": password}).then((token) {
-            saveToken(token);
+        api.rawRequest("GET", "/live/register", headers: {"username": username, "password": password}).then((res) {
+            saveToken(res.body);
         }).catchError((err) {
             setState(() {
                 error = err;

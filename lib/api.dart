@@ -6,26 +6,35 @@ import 'dart:convert';
 const API_BASE = "http://blue.farfrom.world/api";
 var client;
 
-Future<Map<String, dynamic>> request(String method, String path, {Map<String, String> headers = const {}, Map<String, dynamic> body = const {}}) async {
-    var res = await rawRequest(method, path, headers:headers, body:body);
-    return jsonDecode(res);
+Future<Map<String, dynamic>> request(String method, String path, {Map<String, String> headers = const {}, Map<String, dynamic> body = const {}, bool includeToken = true}) async {
+    var res = await rawRequest(method, path, headers:headers, body:body, includeToken:includeToken);
+    return jsonDecode(res.body);
 }
-Future<String> rawRequest(String method, String path, {Map<String, String> headers = const {}, Map<String, dynamic> body = const {}}) async {
+Future<http.Response> rawRequest(String method, String path, {Map<String, String> headers = const {}, Map<String, dynamic> body = const {}, bool includeToken = true, bool ignoreStatus = false}) async {
+    Map<String, String> _headers = new Map.from(headers);
     if (client == null) {
         client = await http.Client();
     }
     var url = Uri.parse(API_BASE + path);
+
+    // Attach auth headers
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var token = prefs.getString("token") ?? "";
+    if (token != "" && includeToken) {
+        print("Attaching token!");
+        _headers["token"] = token;
+    }
+
+
     var response;
     if (method == "GET") {
-        response = await client.get(url, headers: headers);
+        response = await client.get(url, headers: _headers);
     } else {
         throw "Invalid method";
     }
 
-    if (response.statusCode != 200) {
+    if (response.statusCode != 200 && !ignoreStatus) {
         throw response.body;
     }
-    var body = response.body;
-    print(body);
-    return body;
+    return response;
 }
