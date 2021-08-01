@@ -1,4 +1,5 @@
 import "package:flutter/material.dart";
+import 'dart:math';
 import "package:bloo/api.dart" as api;
 import "package:shared_preferences/shared_preferences.dart";
 
@@ -22,12 +23,23 @@ class _LoginState extends State<LoginPage> {
     final usernameController = new TextEditingController();
     final passwordController = new TextEditingController();
 
+    // Random icon
+    int randomIcon = 0;
+
     @override
     Widget build(BuildContext context) {
+        if (randomIcon == 0) {
+            randomIcon = Random().nextInt(10000) + 1;
+        }
         return Column(
             mainAxisAlignment: MainAxisAlignment.center,
             mainAxisSize: MainAxisSize.max,
             children: <Widget>[
+                // Random icon
+                Padding(
+                    padding: EdgeInsets.only(left: 64, right: 64, bottom: 16),
+                    child: Image.network(api.API_BASE + "/cached/avatar/${randomIcon}")
+                ),
                 // Error text
                 Align(
                     alignment: Alignment.centerLeft,
