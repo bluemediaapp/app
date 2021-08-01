@@ -4,6 +4,7 @@ import "package:shared_preferences/shared_preferences.dart";
 import "package:flutter/foundation.dart" as foundation;
 import "package:bloo/api.dart" as api;
 import "package:bloo/login.dart";
+import "package:bloo/recommended.dart";
 
 void main() {
   runApp(MyApp());
@@ -13,7 +14,6 @@ class MyApp extends StatelessWidget {
     @override
     Widget build(BuildContext context) {
         return MaterialApp(
-            title: "Flutter Demo",
             debugShowCheckedModeBanner: false,
             theme: ThemeData(
                 primarySwatch: Colors.blue,
@@ -34,6 +34,8 @@ class _SelectorPageState extends State<SelectorPage> {
     bool checkedLogin = false;
     bool loggedIn = false;
 
+    Widget active = RecommendedPage();
+
     @override
     Widget build(BuildContext context) {
         Widget widget;
@@ -51,8 +53,8 @@ class _SelectorPageState extends State<SelectorPage> {
             // Token was not present or expired
             widget = LoginPage(this.onLoggedIn);
         } else {
-            // No widget was selected
-            widget = SafeArea(child: Text("I can't figure what to display..."));
+            // Logged in!
+            widget = active;
         }
 
         return Scaffold(
