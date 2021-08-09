@@ -48,19 +48,26 @@ class _SelectorPageState extends State<SelectorPage> {
         if (!checkedLogin) {
             // Login check has to be async
             checkLoginStatus();
-            widget = SafeArea(child: Text("Verifying login..."));
+            return Scaffold(
+                body: Container(),
+                backgroundColor: Color(0x000)
+            );
         } else if (!loggedIn) {
             // Token was not present or expired
-            widget = LoginPage(this.onLoggedIn);
-        } else {
+            return Scaffold(
+                body: LoginPage(this.onLoggedIn)
+            );
+        } else if (active != null) {
             // Logged in!
-            widget = active;
+            return Scaffold(
+                body: active,
+                backgroundColor: Color(0x000),
+            );
+        } else {
+            return Scaffold(
+                body: Text("No page to render..?")
+            );
         }
-
-        return Scaffold(
-            body: widget,
-            appBar: null,
-        );
     }
     
     void onLoggedIn() {
