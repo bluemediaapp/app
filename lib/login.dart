@@ -26,10 +26,14 @@ class _LoginState extends State<LoginPage> {
     // Random icon
     int randomIcon = 0;
 
+    void new_icon() {
+        randomIcon = Random().nextInt(5) + 1;
+    }
+
     @override
     Widget build(BuildContext context) {
         if (randomIcon == 0) {
-            randomIcon = Random().nextInt(10000) + 1;
+            new_icon();
         }
         return Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -38,7 +42,14 @@ class _LoginState extends State<LoginPage> {
                 // Random icon
                 Padding(
                     padding: EdgeInsets.only(left: 64, right: 64, bottom: 16),
-                    child: Image.network(api.API_BASE + "/cached/avatar/${randomIcon}")
+                    child: GestureDetector(
+                        onTap: () {
+                            setState(() {
+                                new_icon();
+                            });
+                        },
+                        child: Image.network(api.API_BASE + "/cached/avatar/${randomIcon}")
+                    )
                 ),
                 // Error text
                 Align(
