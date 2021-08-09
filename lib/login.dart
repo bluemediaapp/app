@@ -27,7 +27,13 @@ class _LoginState extends State<LoginPage> {
     int randomIcon = 0;
 
     void new_icon() {
-        randomIcon = Random().nextInt(5) + 1;
+        var newIcon = Random().nextInt(5) + 1;
+        if (newIcon == randomIcon) {
+            new_icon();
+        } else {
+            randomIcon = newIcon;
+        }
+        
     }
 
     @override
