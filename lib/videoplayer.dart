@@ -26,20 +26,33 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
 
     @override
     Widget build(BuildContext context) {
-        return Center(
-            child: GestureDetector(
-                onTap: () {
-                    if (videoController.value.isPlaying) {
-                        videoController.pause();
-                    } else {
-                        videoController.play();
-                    }
-                },
-                child: AspectRatio(
-                    aspectRatio: videoController.value.aspectRatio,
-                    child: VideoPlayer(videoController)
+        return Stack(
+            children: <Widget>[
+                Positioned(
+                    bottom: 10,
+                    left: 10,
+                    child: SizedBox(
+                        height: 64,
+                        width: 64,
+                        child: Image.network("${api.API_BASE}/cached/avatar/${widget.videoData['creator_id']}")
+                    )
+                ),
+                Center(
+                    child: GestureDetector(
+                        onTap: () {
+                            if (videoController.value.isPlaying) {
+                                videoController.pause();
+                            } else {
+                                videoController.play();
+                            }
+                        },
+                        child: AspectRatio(
+                            aspectRatio: videoController.value.aspectRatio,
+                            child: VideoPlayer(videoController)
+                        )
+                    )
                 )
-            )
+            ]
         );
     }
 
