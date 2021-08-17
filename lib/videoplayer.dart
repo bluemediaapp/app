@@ -28,6 +28,7 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
     Widget build(BuildContext context) {
         return Stack(
             children: <Widget>[
+                // Avatar
                 Positioned(
                     bottom: 10,
                     left: 10,
@@ -37,6 +38,12 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
                         child: Image.network("${api.API_BASE}/cached/avatar/${widget.videoData['creator_id']}")
                     )
                 ),
+                Positioned(
+                    bottom: 10,
+                    left: 10 + 64 + 10,
+                    child: generateDescription()
+                ),
+                // Video player
                 Center(
                     child: GestureDetector(
                         onTap: () {
@@ -56,7 +63,46 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
         );
     }
 
+    Widget generateDescription() {
+        List<TextSpan> formattedDescription = [];
 
+        var description = widget.videoData["description"];
+        for (String word in description.split(" ")) {
+            word = word + " ";
+            if (word.startsWith("#")) {
+                formattedDescription.add(TextSpan(
+                    text: word,
+                    style: TextStyle(
+                        color: Color(0x99EEEEEE),
+                        fontWeight: FontWeight.bold
+                    )
+                ));
+
+            } else if (word.startsWith("@")) {
+                formattedDescription.add(TextSpan(
+                    text: word,
+                    style: TextStyle(
+                        color: Color(0x99EEEEEE),
+                        fontWeight: FontWeight.bold
+                    )
+                ));
+
+            } else {
+                formattedDescription.add(TextSpan(
+                    text: word,
+                    style: TextStyle(
+                        color: Color(0x99EEEEEE)
+                    )
+                ));
+            }
+        }
+        print(formattedDescription);
+        return RichText(
+            text: TextSpan(
+                children: formattedDescription,
+            )
+        );
+    }
     void playPause() {
         if (videoController.value.isPlaying) {
             videoController.pause();

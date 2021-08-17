@@ -2,7 +2,7 @@ import "package:flutter/material.dart";
 import "package:flutter/services.dart";
 import "package:shared_preferences/shared_preferences.dart";
 import "package:flutter/foundation.dart" as foundation;
-import "package:bloo/api.dart" as api;
+import "package:bloo/api_mappings.dart" as wrapper;
 import "package:bloo/login.dart";
 import "package:bloo/recommended.dart";
 
@@ -89,21 +89,21 @@ class _SelectorPageState extends State<SelectorPage> {
         }
         // Check if the token has expired by doing a request. TODO: Possibly check by the time included in the JWT token?
         // The gateway verifies the API token when doing a request
-        var res = await api.rawRequest("GET", "/live/loginCheck", ignoreStatus: true);
-        // TODO: Change status code to 403
-        print(res.statusCode);
-        if (res.statusCode == 500) {
+        try {
+            await wrapper.get_current_user();
+
+            // Success
+            setState(() {
+                checkedLogin = true;
+                loggedIn = true;
+            });
+        } catch (e) {
+            // Not logged in
             setState(() {
                 checkedLogin = true;
                 loggedIn = false;
             });
-            return;
         }
-        setState(() {
-            checkedLogin = true;
-            loggedIn = true;
-        });
-        
     }
 
 }

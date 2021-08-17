@@ -1,5 +1,6 @@
 import "package:flutter/material.dart";
 import 'dart:math';
+import "package:bloo/api_mappings.dart" as wrapper;
 import "package:bloo/api.dart" as api;
 import "package:shared_preferences/shared_preferences.dart";
 
@@ -33,7 +34,6 @@ class _LoginState extends State<LoginPage> {
         } else {
             randomIcon = newIcon;
         }
-        
     }
 
     @override
@@ -120,11 +120,13 @@ class _LoginState extends State<LoginPage> {
         print("Logging in...");
         var username = usernameController.text;
         var password = passwordController.text;
-
-        api.rawRequest("GET", "/live/login", headers: {"username": username, "password": password}).then((res) {
-            saveToken(res.body);
+        
+        wrapper.login(username, password)
+        .then((token) {
+            saveToken(token);
             widget.loginCallback();
-        }).catchError((err) {
+        })
+        .catchError((err) {
             setState(() {
                 error = err;
             });
@@ -147,11 +149,12 @@ class _LoginState extends State<LoginPage> {
             return;
         }
         print("Creating account!");
-        // TODO: Change to POST
-        api.rawRequest("GET", "/live/register", headers: {"username": username, "password": password}).then((res) {
-            saveToken(res.body);
+        wrapper.register(username, password)
+        .then((token) {
+            saveToken(token);
             widget.loginCallback();
-        }).catchError((err) {
+        })
+        .catchError((err) {
             setState(() {
                 error = err;
             });

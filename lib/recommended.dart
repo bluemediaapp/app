@@ -1,5 +1,5 @@
 import "package:flutter/material.dart";
-import "package:bloo/api.dart" as api;
+import "package:bloo/api_mappings.dart" as wrapper;
 import "package:bloo/videoplayer.dart";
 
 class RecommendedPage extends StatefulWidget {
@@ -21,8 +21,8 @@ class _RecommendedPageState extends State<RecommendedPage> {
 
     Future<void> getRecommended(bool fresh) async {
         // The first time it loads we have to refresh.
-        var ignore = recommendedVideos.map((video) => video["id"]).join(",");
-        var res = await api.request("GET", "/live/recommended?ignore=${ignore}");
+        Iterable<int> ignore = recommendedVideos.map((video) => video["id"]);
+        var res = await wrapper.get_recommended(ignore);
         res.forEach((video) {
             recommendedVideos.add(video);
         });
