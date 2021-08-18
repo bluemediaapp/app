@@ -1,5 +1,6 @@
 import "package:video_player/video_player.dart";
 import "package:flutter/material.dart";
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import "package:bloo/api.dart" as api;
 
 class VideoPlayerWidget extends StatefulWidget {
@@ -26,40 +27,78 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
 
     @override
     Widget build(BuildContext context) {
-        return Stack(
-            children: <Widget>[
-                // Avatar
-                Positioned(
-                    bottom: 10,
-                    left: 10,
-                    child: SizedBox(
-                        height: 64,
-                        width: 64,
-                        child: Image.network("${api.API_BASE}/cached/avatar/${widget.videoData['creator_id']}")
+        var widgets = <Widget>[];
+
+       
+        // Video player
+        widgets.add(
+            Center(
+                child: GestureDetector(
+                    onTap: this.playPause,
+                    child: AspectRatio(
+                        aspectRatio: videoController.value.aspectRatio,
+                        child: VideoPlayer(videoController)
                     )
-                ),
-                Positioned(
-                    bottom: 10,
-                    left: 10 + 64 + 10,
-                    child: generateDescription()
-                ),
-                // Video player
+                )
+            )
+        );
+
+        // Loading / Paused icon
+        if (!videoController.value.isInitialized) {
+            // Loading video
+            widgets.add(
                 Center(
-                    child: GestureDetector(
-                        onTap: () {
-                            if (videoController.value.isPlaying) {
-                                videoController.pause();
-                            } else {
-                                videoController.play();
-                            }
-                        },
-                        child: AspectRatio(
-                            aspectRatio: videoController.value.aspectRatio,
-                            child: VideoPlayer(videoController)
+                    child: InkWell(
+                        onTap: this.playPause,
+                        child: SpinKitWave(
+                            color: Color(0xFF00FFFF),
+                            size: 25
                         )
                     )
                 )
-            ]
+            );
+        } else if (!this.videoController.value.isPlaying) {
+            // Video is paused
+            widgets.add(
+                Center(
+                    child: InkWell(
+                        onTap: this.playPause,
+                        child: Icon(
+                            Icons.play_arrow,
+                            color: Color(0xFF00FFFF),
+                            size: 48
+                        )
+                    )
+                )
+            );
+        }
+
+
+        // Avatar
+        widgets.add(
+            Positioned(
+                bottom: 10,
+                left: 10,
+                child: SizedBox(
+                    height: 64,
+                    width: 64,
+                    child: Image.network("${api.API_BASE}/cached/avatar/${widget.videoData['creator_id']}")
+                )
+            )
+        );
+        
+        // Description
+        widgets.add(
+            Positioned(
+                bottom: 10,
+                left: 10 + 64 + 10,
+                child: generateDescription()
+            )
+        );
+        
+        // Render
+        return Stack(
+            children: widgets
         );
     }
 
@@ -103,11 +142,14 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
         );
     }
     void playPause() {
-        if (videoController.value.isPlaying) {
-            videoController.pause();
-        } else {
-            videoController.play();
-        }
+        setState(() {
+            print("HELLO YES CHANGING PLAY STATE");
+            if (videoController.value.isPlaying) {
+                videoController.pause();
+            } else {
+                videoController.play();
+            }
+        });
     }
 
 
