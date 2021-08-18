@@ -8,7 +8,8 @@ class RecommendedPage extends StatefulWidget {
 
 class _RecommendedPageState extends State<RecommendedPage> {
     List<Map<String, dynamic>> recommendedVideos = [];
-    int refreshSize = 0;
+    int refreshSize = 2;
+    final PageController pageController = new PageController();
 
     @override
     Widget build(BuildContext context) {
@@ -16,7 +17,11 @@ class _RecommendedPageState extends State<RecommendedPage> {
             getRecommended(true);
             return Container();
         }
-        return VideoPlayerWidget(recommendedVideos[0]);
+        return PageView.builder(
+            controller: pageController,
+            scrollDirection: Axis.vertical,
+            itemBuilder: this.buildPage
+        );
     }
 
     Future<void> getRecommended(bool fresh) async {
@@ -30,5 +35,17 @@ class _RecommendedPageState extends State<RecommendedPage> {
         if (fresh) {
             setState(() {});
         }
+    }
+    Widget buildPage(BuildContext context, int index) {
+        int remainingVideos = recommendedVideos.length - index;
+        if (remainingVideos <= refreshSize) {
+            getRecommended(false);
+        }
+        return VideoPlayerWidget(this.recommendedVideos[index]);
+    }
+
+    void dispose() {
+        pageController.dispose();
+        super.dispose();
     }
 }

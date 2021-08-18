@@ -96,7 +96,6 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
                 ));
             }
         }
-        print(formattedDescription);
         return RichText(
             text: TextSpan(
                 children: formattedDescription,
