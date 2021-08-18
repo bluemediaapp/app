@@ -1,6 +1,6 @@
 import "package:flutter/material.dart";
 import "package:bloo/api_mappings.dart" as wrapper;
-import "package:bloo/videoplayer.dart";
+import "package:bloo/videos/video.dart";
 
 class RecommendedPage extends StatefulWidget {
     createState() => _RecommendedPageState();
@@ -41,7 +41,7 @@ class _RecommendedPageState extends State<RecommendedPage> {
         if (remainingVideos <= refreshSize) {
             getRecommended(false);
         }
-        return VideoPlayerWidget(this.recommendedVideos[index]);
+        return VideoWidget(this.recommendedVideos[index]);
     }
 
     void dispose() {

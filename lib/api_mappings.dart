@@ -20,7 +20,11 @@ Future<List<dynamic>> get_recommended(Iterable<int> ignore) async {
 
 
 // Cached
-Future<String> get_current_user() async {
-    var response = await api.request("GET", "/cached/user/@me", includeToken: false);
+Future<Map<String, dynamic>> get_current_user() async {
+    var response = await api.request("GET", "/cached/user/@me");
+    return response;
+}
+Future<Map<String, dynamic>> getUser(int userId) async {
+    var response = await api.request("GET", "/cached/user/${userId}", includeToken: false);
     return response;
 }
