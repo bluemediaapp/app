@@ -3,8 +3,8 @@ import "package:shared_preferences/shared_preferences.dart";
 import "dart:convert";
 
 //const API_BASE = "http://localhost";
-//const API_BASE = "http://blue.farfrom.world/api";
-const API_BASE = "https://96505dcae3cd.ngrok.io/api";
+const API_BASE = "http://blue.farfrom.world/api";
+//const API_BASE = "https://96505dcae3cd.ngrok.io/api";
 var client;
 
 Future<dynamic> request(String method, String path, {Map<String, String> headers = const {}, Map<String, dynamic> body = const {}, bool includeToken = true}) async {
