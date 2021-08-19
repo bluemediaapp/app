@@ -1,5 +1,6 @@
 import "package:flutter/material.dart";
 import "package:bloo/api_mappings.dart" as wrapper;
+import "package:bloo/api.dart" as api;
 
 class ProfileViewerWidget extends StatefulWidget {
     int userId;
@@ -18,6 +19,20 @@ class _ProfileViewerWidgetState extends State<ProfileViewerWidget> {
         return Container(
             decoration: BoxDecoration(
                 color: Color(0xFFCCCCCC)
+            ),
+            child: Column(
+                children: [
+                    Positioned(
+                        child: SizedBox(
+                            child: Image.network("${api.API_BASE}/cached/avatar/${widget.userId}"),
+                            height: 250,
+                            width: 250
+                        ),
+                        top: 5,
+                        left: 50
+
+                    )
+                ],
             )
         );
     }
