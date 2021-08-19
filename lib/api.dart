@@ -22,13 +22,15 @@ Future<http.Response> rawRequest(String method, String path, {Map<String, String
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var token = prefs.getString("token") ?? "";
     if (token != "" && includeToken) {
-        _headers["token"] = token;
+        _headers["Authorization"] = token;
     }
 
 
     var response;
     if (method == "GET") {
         response = await client.get(url, headers: _headers);
+    } else if (method == "POST") {
+        response = await client.post(url, headers: _headers, body: body);
     } else {
         throw "Invalid method";
     }
