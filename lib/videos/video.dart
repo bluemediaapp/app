@@ -3,7 +3,6 @@ import "package:bloo/api_mappings.dart" as wrapper;
 import "package:bloo/videos/videoplayer.dart";
 import "package:bloo/videos/comments.dart";
 import "package:bloo/profileview.dart";
-
 class VideoWidget extends StatefulWidget {
     Map<String, dynamic> videoData;
 
@@ -23,8 +22,7 @@ class _VideoWidgetState extends State<VideoWidget> {
                 VideoPlayerPanel(widget.videoData),
                 CommentsPanel(),
                 ProfileViewerWidget(widget.videoData["creator_id"]),
-
-            ]
+            ],
         );
     }
 }

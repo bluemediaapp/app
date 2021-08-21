@@ -2,6 +2,7 @@ import "package:flutter/material.dart";
 import "package:flutter/services.dart";
 import "package:shared_preferences/shared_preferences.dart";
 import "package:flutter/foundation.dart" as foundation;
+import 'package:google_fonts/google_fonts.dart'; 
 import "package:bloo/api_mappings.dart" as wrapper;
 import "package:bloo/login.dart";
 import "package:bloo/recommended.dart";
@@ -17,9 +18,9 @@ class MyApp extends StatelessWidget {
             debugShowCheckedModeBanner: false,
             theme: ThemeData(
                 primarySwatch: Colors.blue,
+                textTheme: GoogleFonts.robotoMonoTextTheme()
             ),
             home: SelectorPage(),
-            //home: Scaffold(body: LoginPage()),
         );
     }
 }

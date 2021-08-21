@@ -1,6 +1,6 @@
 import "package:video_player/video_player.dart";
 import "package:flutter/material.dart";
-import 'package:flutter_spinkit/flutter_spinkit.dart';
+import "package:flutter_spinkit/flutter_spinkit.dart";
 import "package:bloo/api.dart" as api;
 
 class VideoPlayerPanel extends StatefulWidget {
@@ -48,12 +48,9 @@ class _VideoPlayerPanelState extends State<VideoPlayerPanel> {
             // Loading video
             widgets.add(
                 Center(
-                    child: InkWell(
-                        onTap: this.playPause,
-                        child: SpinKitWave(
-                            color: Color(0xFF00FFFF),
-                            size: 25
-                        )
+                    child: SpinKitWave(
+                        color: Color(0xFF00FFFF),
+                        size: 25
                     )
                 )
             );
